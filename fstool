@@ -4,7 +4,6 @@ require 'commander/import'
 require 'freesound'
 require 'awesome_print'
 require 'httparty'
-require 'progressbar'
 
 Freesound.api_key = ENV['FREESOUND_API_KEY']
 client = Freesound::Client.new
@@ -42,7 +41,7 @@ command :play do |c|
     filename = "./temp.mp3"
     File.open(filename, 'wb') do |f|
       f.write HTTParty.get(sound.preview_hq_mp3).parsed_response
-		end
+    end
 
     system "afplay #{filename} -d"
     File.delete(filename)
@@ -57,13 +56,10 @@ command :dl do |c|
     system "mkdir ./#{dir}" unless File.directory? dir
     sound = client.sound(args.first)
     filename = "./#{dir}/#{CGI::escape(sound.original_filename.downcase)}"
-		pbar = ProgressBar.new('Download', 100)
-		File.open(filename, 'wb') do |f|
+    ap "Downloading #{sound.filesize} bytes"
+    File.open(filename, 'wb') do |f|
       f.write HTTParty.get("#{sound.serve}?api_key=#{ENV['FREESOUND_API_KEY']}").parsed_response
-			pbar.inc
-		end
-		pbar.finish
-		#system "ffmpeg -i #{filename}.mp3 #{filename}.wav"
-    ap filename
+    end
+    ap "WAV downloaded: #{filename}"
   end
 end
