@@ -55,8 +55,9 @@ command :dl do |c|
     dir = ask "sample folder name:"
     system "mkdir ./#{dir}" unless File.directory? dir
     sound = client.sound(args.first)
-    filename = "./#{dir}/#{sound.original_filename}"
-    open(filename, 'wb') do |file|
+    filename = "./#{dir}/#{CGI::escape(sound.original_filename)}"
+		system "chmod 755 #{filename}"
+		open(filename, 'wb') do |file|
       file << open(sound.url).read
     end
     ap filename
