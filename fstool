@@ -33,14 +33,14 @@ command :info do |c|
   end
 end
 
-command :play do |c|
+command :play  do |c|
   c.syntax = 'fs play'
   c.description = 'plays the sample'
   c.action do |args, options|
     sound = client.sound(args.first)
     filename = "./temp.mp3"
     File.open(filename, 'wb') do |f|
-      f.write HTTParty.get(sound.preview_hq_mp3).parsed_response
+      f.write HTTParty.get(sound.preview_lq_mp3).parsed_response
     end
 
     system "afplay #{filename} -d"
