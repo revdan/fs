@@ -31,7 +31,7 @@ Test it works: `fs grep dubstep`
 
     fs grep <keywords>
 
-Search for a wav file using the given keywords. Returns `id | lenght | title`.
+Search for a wav file using the given keywords. Returns `id | length | title`.
 
 This will include all, rather than combinations of keywords. For example, `fs grep dubstep 140` will most likely find dubstep samples at 140BPM, rather than dubstep _or_ 140BPM samples. If you want to search for two things, do two searches.
 
