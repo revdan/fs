@@ -13,7 +13,7 @@ I mainly use this with [https://github.com/yaxu/tidal](tidal), so it only search
 
 You better have Ruby installed.
 
-You'll also need to have a [freesound.org API key](http://www.freesound.org/api/apply/). Once you have that, run `export FREESOUND_API_KEY=whateveryourapikeyis`, or stick that line in whichever dotfile you use for that sort of thing. 
+You'll also need to have a [freesound.org API key](http://www.freesound.org/api/apply/). Once you have that, run `export FREESOUND_API_KEY=whateveryourapikeyis`, or stick that line in whichever dotfile you use for that sort of thing.
 
 Preparations complete, clone the repo to somewhere: `git clone git@github.com:revdan/fs.git`
 
@@ -28,28 +28,28 @@ Test it works: `fs grep dubstep`
 ###Usage
 
 ####grep
-   
+
     fs grep keywords
-   
-Search for a wav file using the given keywords. Returns `id :: title`.
+
+Search for a wav file using the given keywords. Returns `id | length | title`.
 
 This will include all, rather than combinations of keywords. For example, `fs grep dubstep 140` will most likely find dubstep samples at 140BPM. Because that's what you all want.
 
 ####info
 
     fs info id
-    
+
 Prints all the attributes for a given sample.
 
 ####play
 
     fs play id
-    
+
 Plays a preview version of the sample.
 
 ####dl
 
     fs dl id
-    
+
 Downloads the file. It will ask for a directory but at the moment only supports directories below the current one. I'd recommend running this in your base `samples` directory, so you can create subdirectories grouped by names of your choosing. Again, this is on my list of things to improve.
 

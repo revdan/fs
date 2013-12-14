@@ -18,8 +18,9 @@ command :grep do |c|
   c.action do |args, options|
     query = args.join('+')
     results = client.search(query, f: "type:wav")
+    puts "id\tlength\tfilename"
     results.each do |s|
-      puts "#{s.id} :: #{s.original_filename}"
+      puts "#{s.id}\t#{s.duration.round(2)}\t#{s.original_filename}"
     end
   end
 end
@@ -27,7 +28,7 @@ end
 command :info do |c|
   c.syntax = 'fs info'
   c.description = 'full info for single sample'
-  c.action do |args, options|
+  c.action do  |args, options|
     sound = client.sound(args.first)
     ap sound.attributes
   end
