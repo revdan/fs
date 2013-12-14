@@ -2,8 +2,8 @@
 require 'rubygems'
 require 'commander/import'
 require 'freesound'
-require "awesome_print"
-require 'open-uri'
+require 'awesome_print'
+require 'httparty'
 
 Freesound.api_key = ENV['FREESOUND_API_KEY']
 client = Freesound::Client.new
@@ -39,9 +39,9 @@ command :play do |c|
   c.action do |args, options|
     sound = client.sound(args.first)
     filename = "./temp.mp3"
-    open(filename, 'wb') do |file|
-      file << open(sound.preview_hq_mp3).read
-    end
+    File.open(filename, 'wb') do |f|
+      f.write HTTParty.get(sound.preview_hq_mp3).parsed_response
+		end
 
     system "afplay #{filename} -d"
     File.delete(filename)
@@ -55,11 +55,10 @@ command :dl do |c|
     dir = ask "sample folder name:"
     system "mkdir ./#{dir}" unless File.directory? dir
     sound = client.sound(args.first)
-    filename = "./#{dir}/#{CGI::escape(sound.original_filename)}"
-		system "chmod 755 #{filename}"
-		open(filename, 'wb') do |file|
-      file << open(sound.url).read
-    end
+    filename = "./#{dir}/#{CGI::escape(sound.original_filename.downcase.slice(0..-5))}.mp3"
+		File.open(filename, 'wb') do |f|
+      f.write HTTParty.get(sound.preview_hq_mp3).parsed_response
+		end
     ap filename
   end
 end
