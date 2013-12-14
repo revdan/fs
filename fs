@@ -5,12 +5,11 @@ require 'freesound'
 require "awesome_print"
 require 'open-uri'
 
-Freesound.api_key = FREESOUND_API_KEY
+Freesound.api_key = ENV['FREESOUND_API_KEY']
 client = Freesound::Client.new
 
-# :name is optional, otherwise uses the basename of this executable
 program :name, 'freesound command line tool'
-program :version, '1.0.0'
+program :version, '0.1.20131214'
 program :description, 'whatever, chump.'
 
 command :grep do |c|
