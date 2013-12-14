@@ -3,7 +3,7 @@ fs
 
 __freesound.org command line tool. It's pretty shit right now but improvements will happen.__
 
-I mainly use this with [https://github.com/yaxu/tidal](tidal), so it only searches for WAV files right now. I may allow other filetypes in the future with an options flag.
+I mainly use this with [https://github.com/yaxu/tidal](tidal), so it only searches for wav files right now. I may allow other filetypes in the future with an options flag.
 
 ---
 
@@ -29,27 +29,28 @@ Test it works: `fs grep dubstep`
 
 ####grep
    
-    fs grep keywords
+    fs grep <keywords>
    
 Search for a wav file using the given keywords. Returns `id :: title`.
 
-This will include all, rather than combinations of keywords. For example, `fs grep dubstep 140` will most likely find dubstep samples at 140BPM. Because that's what you all want.
+This will include all, rather than combinations of keywords. For example, `fs grep dubstep 140` will most likely find dubstep samples at 140BPM, rather than dubstep _or_ 140BPM samples. If you want to search for two things, do two searches.
 
 ####info
 
-    fs info id
+    fs info <id>
     
 Prints all the attributes for a given sample.
 
 ####play
 
-    fs play id
+    fs play <id>
     
-Plays a preview version of the sample.
+Plays a lower-quality preview of the sample.
 
 ####dl
 
-    fs dl id
+    fs dl <id>
     
-Downloads the file. It will ask for a directory but at the moment only supports directories below the current one. I'd recommend running this in your base `samples` directory, so you can create subdirectories grouped by names of your choosing. Again, this is on my list of things to improve.
+Downloads the original wav file. It will ask for a directory but at the moment only supports directories below the current one. I'd recommend running this in your base `samples` directory, so you can create subdirectories grouped by names of your choosing. Again, this is on my list of things to improve.
 
+Happy hacking! :musical_keyboard:
