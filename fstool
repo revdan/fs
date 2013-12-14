@@ -61,6 +61,6 @@ command :dl do |c|
     File.open(filename, 'wb') do |f|
       f.write HTTParty.get("#{sound.serve}?api_key=#{ENV['FREESOUND_API_KEY']}").parsed_response
     end
-    puts "WAV downloaded: #{filename}.wav"
+    puts "WAV downloaded: #{filename}"
   end
 end
