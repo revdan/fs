@@ -17,7 +17,7 @@ command :grep do |c|
   c.description = 'searches freesound'
   c.action do |args, options|
     query = args.join('+')
-    results = client.search(query)
+    results = client.search(query, f: "type:wav")
     results.each do |s|
       puts "#{s.id} :: #{s.original_filename}"
     end
@@ -55,12 +55,12 @@ command :dl do |c|
     dir = ask "sample folder name:"
     system "mkdir ./#{dir}" unless File.directory? dir
     sound = client.sound(args.first)
-    filename = "./#{dir}/#{CGI::escape(sound.original_filename.downcase.slice(0..-5))}"
-		File.open(filename + ".mp3", 'wb') do |f|
-      f.write HTTParty.get(sound.preview_hq_mp3).parsed_response
+    filename = "./#{dir}/#{CGI::escape(sound.original_filename.downcase)}"
+		p sound.serve
+		File.open(filename, 'wb') do |f|
+      f.write HTTParty.get("#{sound.serve}?api_key=#{ENV['FREESOUND_API_KEY']}").parsed_response
 		end
-		system "ffmpeg -i #{filename}.mp3 #{filename}.wav"
-		File.delete(filename + ".mp3")
+		#system "ffmpeg -i #{filename}.mp3 #{filename}.wav"
     ap filename
   end
 end
