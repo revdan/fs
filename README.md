@@ -9,17 +9,15 @@ I mainly use this with [https://github.com/yaxu/tidal](tidal), so it only search
 
 ###Installation
 
-*These instructions are currently for OS X. Linux version coming soon.*
-
 You better have Ruby installed.
 
 You'll also need to have a [freesound.org API key](http://www.freesound.org/api/apply/). Once you have that, run `export FREESOUND_API_KEY=whateveryourapikeyis`, or stick that line in whichever dotfile you use for that sort of thing.
 
 Preparations complete, clone the repo to somewhere: `git clone git@github.com:revdan/fs.git`
 
-`cd` to that folder, and install the gems `commander`, `freesound`, `awesome_print`, and `httparty`. I'd recommend [RVM](https://rvm.io/) if you don't already use it.
+`cd` to that folder, and install the gems `commander`, `freesound`, `awesome_print`, `os`, and `httparty`. I'd recommend [RVM](https://rvm.io/) for gem management if you don't already use it.
 
-Last of all, let's make an alias so we don't have to be in this folder to run it: `alias fs=~/path/to/fs/fstool`
+Last of all, let's make an alias so we don't have to type 4 extra letters: `alias fs=~/path/to/fs/fstool`
 
 Test it works: `fs grep dubstep`
 
@@ -52,5 +50,13 @@ Plays a lower-quality preview of the sample.
     fs dl <id>
 
 Downloads the original wav file. It will ask for a directory but at the moment only supports directories below the current one. I'd recommend running this in your base `samples` directory, so you can create subdirectories grouped by names of your choosing. Again, this is on my list of things to improve.
+
+####anal
+
+    fs anal <id>
+
+Provides some basic sample analyis, obviously. Currently centered around what I find useful - mainly bpm and key.
+
+---
 
 Happy hacking! :musical_keyboard:
