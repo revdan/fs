@@ -4,6 +4,10 @@ require 'commander/import'
 require 'freesound'
 require 'awesome_print'
 require 'httparty'
+require 'os'
+
+PLAYER = OS.linux? ? "mplayer" : "afplay"
+DL_METHOD = OS.linux? ? "wget -O" : "curl -o"
 
 Freesound.api_key = ENV['FREESOUND_API_KEY']
 client = Freesound::Client.new
@@ -13,7 +17,7 @@ program :version, '0.1.20131214'
 program :description, 'whatever, chump.'
 
 command :grep do |c|
-  c.syntax = 'fs grep'
+  c.syntax = 'fstool grep <keywords>'
   c.description = 'searches freesound'
   c.action do |args, options|
     query = args.join('+')
@@ -26,7 +30,7 @@ command :grep do |c|
 end
 
 command :info do |c|
-  c.syntax = 'fs info'
+  c.syntax = 'fstool info <id>'
   c.description = 'full info for single sample'
   c.action do  |args, options|
     sound = client.sound(args.first)
@@ -34,21 +38,39 @@ command :info do |c|
   end
 end
 
+command :anal do |c|
+  c.syntax = 'fstool anal <id>'
+  c.description = 'provides basic sample analysis, of course'
+  c.action do |args, options|
+    sound = client.sound(args.first)
+    response = HTTParty.get(sound.analysis_frames)
+    body = JSON.parse(response.body)
+    #ap body['rhythm']['bpm']
+   # ap body['tonal']['key_key']
+    body['rhythm'].select do |k,v|
+      puts "#{k.ljust(20)} #{v}" if k =~ /bpm/
+    end
+    body['tonal'].select do |k,v|
+      puts "#{k.ljust(20)} #{v}" if k =~ /key|scale|progression/
+    end
+  end
+end
+
 command :play  do |c|
-  c.syntax = 'fs play'
-  c.description = 'plays the sample'
+  c.syntax = 'fstool play <id>'
+  c.description = 'previews the sample'
   c.action do |args, options|
     sound = client.sound(args.first)
     filename = "./temp.mp3"
     source = sound.preview_lq_mp3
-    system "wget -O #{filename} #{source}"
-    system "afplay #{filename} -d"
+    system "#{DL_METHOD} #{filename} #{source}"
+    system "#{PLAYER} #{filename} -d"
     File.delete(filename)
   end
 end
 
 command :dl do |c|
-  c.syntax = 'fs dl'
+  c.syntax = 'fstool dl <id>'
   c.description = 'downloads the sample'
   c.action do |args, options|
     dir = ask "sample folder name:"
@@ -56,7 +78,7 @@ command :dl do |c|
     sound = client.sound(args.first)
     filename = "./#{dir}/#{CGI::escape(sound.original_filename.downcase).slice(0...-4)}.wav"
     source = "#{sound.serve}?api_key=#{ENV['FREESOUND_API_KEY']}"
-    system "wget -O #{filename} #{source}"
+    system "#{DL_METHOD} #{filename} #{source}"
     puts "WAV downloaded: #{filename}"
   end
 end
