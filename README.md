@@ -57,6 +57,12 @@ Downloads the original wav file. It will ask for a directory but at the moment o
 
 Provides some basic sample analyis, obviously. Currently centered around what I find useful - mainly bpm and key.
 
+####img
+
+    fs img <id>
+    
+Previews the sample's waveform. Uses quicklook in OS X (so you can hit <kbd>space</kbd> to get out again), and `eog` on Linux.
+
 ---
 
 Happy hacking! :musical_keyboard:
