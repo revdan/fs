@@ -40,10 +40,8 @@ command :play  do |c|
   c.action do |args, options|
     sound = client.sound(args.first)
     filename = "./temp.mp3"
-    File.open(filename, 'wb') do |f|
-      f.write HTTParty.get(sound.preview_lq_mp3).parsed_response
-    end
-
+    source = sound.preview_lq_mp3
+    system "wget -O #{filename} #{source}"
     system "afplay #{filename} -d"
     File.delete(filename)
   end
@@ -57,10 +55,8 @@ command :dl do |c|
     system "mkdir ./#{dir}" unless File.directory? dir
     sound = client.sound(args.first)
     filename = "./#{dir}/#{CGI::escape(sound.original_filename.downcase).slice(0...-4)}.wav"
-    puts "Downloading #{sound.filesize} bytes"
-    File.open(filename, 'wb') do |f|
-      f.write HTTParty.get("#{sound.serve}?api_key=#{ENV['FREESOUND_API_KEY']}").parsed_response
-    end
+    source = "#{sound.serve}?api_key=#{ENV['FREESOUND_API_KEY']}"
+    system "wget -O #{filename} #{source}"
     puts "WAV downloaded: #{filename}"
   end
 end
