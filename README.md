@@ -43,7 +43,7 @@ Prints all the attributes for a given sample.
 
     fs play <id>
 
-Plays a lower-quality preview of the sample.
+Plays a lower-quality preview of the sample. Currently `afplay` for OS X, and `mplayer` for Linux (although I'd be happy to take suggestions on the matter).
 
 ####dl
 
