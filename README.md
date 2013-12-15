@@ -15,9 +15,9 @@ You'll also need to have a [freesound.org API key](http://www.freesound.org/api/
 
 Preparations complete, clone the repo to somewhere: `git clone git@github.com:revdan/fs.git`
 
-`cd` to that folder, and install the gems `commander`, `freesound`, `awesome_print`, `os`, and `httparty`. I'd recommend [RVM](https://rvm.io/) for gem management if you don't already use it.
+`cd` to that folder, and `gem install commander freesound_ruby awesome_print os httparty terminal-table`. I'd recommend [RVM](https://rvm.io/) for gem management if you don't already use it.
 
-Last of all, let's make an alias so we don't have to type 4 extra letters: `alias fs=~/path/to/fs/fstool`
+Last of all, let's make an alias so we don't have to type those 4 extra letters each time: `alias fs=~/path/to/fs/fstool`
 
 Test it works: `fs grep dubstep`
 
